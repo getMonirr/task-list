@@ -53,6 +53,7 @@ function handleRemove(e) {
     if (e.target.hasAttributes('href')) {
         if (confirm(`Are you sure??`))
             e.target.parentNode.remove()
+            removeFormLocalStorage(e);
     }
 
 }
@@ -109,4 +110,14 @@ function getTask(){
 
     taskList.appendChild(li);
     })
+}
+
+function removeFormLocalStorage(e){
+    const localArray = JSON.parse(localStorage.getItem('tasks'));
+    const target = e.target.parentNode.firstChild.textContent;
+    const restTask = localArray.filter(task => {
+        return task.split(' ').join("").trim() !== target.split(' ').join("").trim();
+    });
+    localStorage.setItem('tasks',JSON.stringify(restTask));
+    console.log(target.split(' ').join("").trim(),restTask);
 }
